@@ -1,0 +1,18 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Contacts Details: {{contact.name}}</title>
+  </head>
+  <body>
+    <h2>Contact Details: {{contact.name}} </h2>
+    <a href="{% url 'index' %}"> <- Back </a></br>
+    Name: {{contact.name}} <br>
+    Email: {{contact.email}}<br>
+    Address: {{contact.address}}<br>
+    Birthday: {{contact.birthday}}<br>
+    Notes: {{contact.notes}}<br>
+    Events: <a href="{% url 'event_log' contact.id %}"> Here </a>
+  </body>
+</html>
