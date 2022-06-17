@@ -8,6 +8,9 @@
     <h2> Welcome! </h2>
 
     <p>This is a self-hostable app to keep track of interpersonal connections.</p>
+    <form action="{% url 'add_contact' %}", method="get">
+        <button>Add Contact</button>
+    </form>
     {% if contacts_list %}
         <ul>
         {% for contact in contacts_list %}

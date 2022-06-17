@@ -5,7 +5,7 @@ class Contact(models.Model):
     name = models.CharField(max_length=200)
     email = models.CharField(max_length=200)
     address = models.CharField(max_length=200)
-    birthday = models.DateField()
+    birthday = models.DateField(blank=True,null=True)
     notes = models.TextField()
 
     def __str__(self):

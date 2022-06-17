@@ -7,12 +7,35 @@
   </head>
   <body>
     <h2>Contact Details: {{contact.name}} </h2>
-    <a href="{% url 'index' %}"> <- Back </a></br>
     Name: {{contact.name}} <br>
     Email: {{contact.email}}<br>
     Address: {{contact.address}}<br>
     Birthday: {{contact.birthday}}<br>
     Notes: {{contact.notes}}<br>
-    Events: <a href="{% url 'event_log' contact.id %}"> Here </a>
+
+    <form action="{% url 'edit_contact' contact.id %}", method="get">
+        <input type='submit' value='Edit'>
+    </form>
+    <form action="{% url 'delete_contact' contact.id %}", method="post">
+        {% csrf_token %}
+        <button>DELETE CONTACT</button>
+    </form>
+
+    <br>Events<br>---------
+
+    {% if events %}
+        {% for event in events %}
+            <p>
+                {{event.date}} <br>
+                {{event.description}} <br>
+                {{event.notes}} <br><br>
+            </p>
+        {% endfor %}
+    {% else %}
+        <p>No events for {{contact.name}} </p>
+    {% endif %}
+    <form action="{% url 'index' %}", method="get">
+        <input type='submit' value='<Back'>
+    </form>
   </body>
 </html>
