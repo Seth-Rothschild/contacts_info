@@ -5,7 +5,7 @@ class Contact(models.Model):
     name = models.CharField(max_length=200)
     email = models.CharField(max_length=200)
     address = models.CharField(max_length=200)
-    birthday = models.DateField(blank=True,null=True)
+    birthday = models.DateField(blank=True, null=True)
     notes = models.TextField()
 
     def __str__(self):
@@ -14,7 +14,7 @@ class Contact(models.Model):
 
 class Event(models.Model):
     contact = models.ForeignKey(Contact, on_delete=models.CASCADE)
-    date = models.DateField()
+    date = models.DateField(blank=True, null=True)
     description = models.CharField(max_length=200)
     notes = models.TextField()
 

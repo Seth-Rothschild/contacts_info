@@ -12,11 +12,9 @@
         <button>Add Contact</button>
     </form>
     {% if contacts_list %}
-        <ul>
         {% for contact in contacts_list %}
-            <li><a href="{{ contact.id }}/contact_details">{{ contact.name }}</a></li>
+            <br><a href="{{ contact.id }}/contact_details">{{ contact.name }}</a>
         {% endfor %}
-        </ul>
     {% else %}
         <p>No contacts exist.</p>
     {% endif %}

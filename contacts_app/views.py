@@ -23,8 +23,8 @@ def contact_details(request, contact_id):
 
 
 def add_contact(request):
-    form = request.POST
     if request.method == "POST":
+        form = request.POST
         if form["birthday"] == "":
             birthday = None
         else:
@@ -50,13 +50,13 @@ def edit_contact(request, contact_id):
             birthday = None
         else:
             birthday = form["birthday"]
-        contact.name=form["name"]
-        contact.email=form["email"]
-        contact.address=form["address"]
-        contact.birthday=birthday
-        contact.notes=form["notes"]
+        contact.name = form["name"]
+        contact.email = form["email"]
+        contact.address = form["address"]
+        contact.birthday = birthday
+        contact.notes = form["notes"]
         contact.save()
-        return HttpResponseRedirect(reverse("index"))
+        return HttpResponseRedirect(reverse("contact_details", args=[contact_id]))
     else:
         return render(request, "contacts_app/edit_contact.html", {"contact": contact})
 
@@ -67,13 +67,31 @@ def delete_contact(request, contact_id):
     return HttpResponseRedirect(reverse("index"))
 
 
-def add_event(request):
-    return HttpResponse("add event route")
+def add_event(request, contact_id):
+    contact = get_object_or_404(Contact, pk=contact_id)
+    if request.method == "POST":
+        form = request.POST
+        if form["date"] == "":
+            date = None
+        else:
+            date = form["date"]
+        e = Event(
+            contact=contact,
+            date=date,
+            description=form["description"],
+            notes=form["notes"],
+        )
+        e.save()
+        return HttpResponseRedirect(reverse("contact_details", args=[contact_id]))
+    else:
+        return render(request, "contacts_app/add_event.html", {"contact": contact})
+
+
+def delete_event(request, event_id):
+    event = get_object_or_404(Event, pk=event_id)
+    event.delete()
+    return HttpResponseRedirect(reverse("contact_details", args=[event.contact.id]))
 
 
 def edit_event(request, event_id):
     return HttpResponse("edit event {} route".format(event_id))
-
-
-def delete_event(request, event_id):
-    return HttpResponse("delete event {} route".format(event_id))

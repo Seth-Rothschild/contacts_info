@@ -14,7 +14,7 @@
         <input type="text" name="address" value="{{ contact.address }}"><br>
         <input type="date" name="birthday" value={{ contact.birthday|date:"Y-m-d" }}><br>
         <textarea name="notes" placeholder="notes" rows=3>{{ contact.notes }}</textarea><br>
-        <input type="submit" value="Edit Contact">
+        <input type="submit" value="Save">
     </form>
     <form action="{% url 'contact_details' contact.id %}", method="get">
         <input type='submit' value='<Back'>

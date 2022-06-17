@@ -25,7 +25,7 @@ urlpatterns = [
         name="edit_contact",
     ),
     path(
-        "event/add/",
+        "<int:contact_id>/event/add/",
         views.add_event,
         name="add_event",
     ),

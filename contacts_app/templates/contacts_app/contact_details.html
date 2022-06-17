@@ -22,18 +22,22 @@
     </form>
 
     <br>Events<br>---------
-
     {% if events %}
         {% for event in events %}
-            <p>
-                {{event.date}} <br>
-                {{event.description}} <br>
-                {{event.notes}} <br><br>
-            </p>
+            <form action="{% url 'delete_event' event.id %}", method="post">
+                {% csrf_token %}
+                Date: {{event.date}} <br>
+                Description: {{event.description}} <br>
+                Notes: {{event.notes}} <br>
+                <input type='submit' value='Delete Event'><br><br>
+            </form>
         {% endfor %}
     {% else %}
-        <p>No events for {{contact.name}} </p>
+        <br>No events for {{contact.name}}
     {% endif %}
+    <form action="{% url 'add_event' contact.id %}", method="get">
+        <input type='submit' value='Add Event'>
+    </form>
     <form action="{% url 'index' %}", method="get">
         <input type='submit' value='<Back'>
     </form>
