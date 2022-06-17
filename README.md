@@ -1,6 +1,9 @@
 # About
 
-The purpose of this app is for me to learn about Django. The app theoretically stores information about birthdays, addresses, and events for people in my life. It's inspired by [Monica](https://github.com/monicahq/monica) but even when done will have **substantially fewer** features.
+This app theoretically stores information about birthdays, addresses, and events for people in my life. It's inspired by [Monica](https://github.com/monicahq/monica) but even when done will have **substantially fewer** features.
+
+![](contact_example.png)
+
 
 ## Install
 The only dependency is `django`, so you can install that with
@@ -8,7 +11,7 @@ The only dependency is `django`, so you can install that with
 ```
 conda create -p env python=3.10 django
 ```
-and then `conda activate django`. The server runs with `python manage.py runserver`. See the [django documentation](https://docs.djangoproject.com/en/4.0/) for more details.
+and then `conda activate django`. To run the app you'll need to make a database, which you can do with `python manage.py migrate`. After that the server runs with `python manage.py runserver`. See the [django documentation](https://docs.djangoproject.com/en/4.0/) for more details.
 
 ## License
-This is AGPL licensed code. That being said, the vast majority of the code here is boilerplate from django, so if you would like similar functionality and for some reason you're not allowed to use the AGPL license, it likely wouldn't be too difficult to reproduce the steps required to create this.
+Even though this is AGPL licensed code, this project is mostly an excuse for me to learn django so I'm not really sure why you would want to copy it rather than build it from scratch using the tools django provides. I would not recommend it for production use, but you're welcome to copy it so long as you maintain the license.
