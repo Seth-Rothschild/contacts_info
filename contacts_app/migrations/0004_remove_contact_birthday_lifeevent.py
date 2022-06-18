@@ -7,22 +7,36 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('contacts_app', '0003_alter_event_date'),
+        ("contacts_app", "0003_alter_event_date"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='contact',
-            name='birthday',
+            model_name="contact",
+            name="birthday",
         ),
         migrations.CreateModel(
-            name='LifeEvent',
+            name="LifeEvent",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('date', models.DateField()),
-                ('description', models.CharField(max_length=200)),
-                ('notify', models.BooleanField(null=True)),
-                ('contact', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='contacts_app.contact')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("date", models.DateField()),
+                ("description", models.CharField(max_length=200)),
+                ("notify", models.BooleanField(null=True)),
+                (
+                    "contact",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="contacts_app.contact",
+                    ),
+                ),
             ],
         ),
     ]

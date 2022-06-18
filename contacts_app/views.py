@@ -34,7 +34,11 @@ def add_contact(request):
         c.save()
         return HttpResponseRedirect(reverse("index"))
     else:
-        context = {"formtype": "Add", "submit":reverse('add_contact'), "back":reverse('index')}
+        context = {
+            "formtype": "Add",
+            "submit": reverse("add_contact"),
+            "back": reverse("index"),
+        }
         return render(request, "contacts_app/modify_contact.html", context)
 
 
@@ -49,7 +53,12 @@ def edit_contact(request, contact_id):
         contact.save()
         return HttpResponseRedirect(reverse("contact_details", args=[contact_id]))
     else:
-        context = {"contact":contact, "formtype": "Edit", "submit":reverse('edit_contact', args=[contact_id]), "back":reverse('contact_details', args=[contact_id])}
+        context = {
+            "contact": contact,
+            "formtype": "Edit",
+            "submit": reverse("edit_contact", args=[contact_id]),
+            "back": reverse("contact_details", args=[contact_id]),
+        }
         return render(request, "contacts_app/modify_contact.html", context)
 
 
@@ -76,9 +85,13 @@ def add_event(request, contact_id):
         e.save()
         return HttpResponseRedirect(reverse("contact_details", args=[contact_id]))
     else:
-        context = {"contact": contact, "formtype": "Add", "submit": reverse('add_event', args=[contact_id])}
+        context = {
+            "contact": contact,
+            "formtype": "Add",
+            "submit": reverse("add_event", args=[contact_id]),
+        }
         return render(request, "contacts_app/modify_event.html", context)
-    
+
 
 def edit_event(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
@@ -94,7 +107,12 @@ def edit_event(request, event_id):
         event.save()
         return HttpResponseRedirect(reverse("contact_details", args=[event.contact.id]))
     else:
-        context = {"event": event, "contact": event.contact, "formtype": "Edit", "submit": reverse('edit_event', args=[event_id])}
+        context = {
+            "event": event,
+            "contact": event.contact,
+            "formtype": "Edit",
+            "submit": reverse("edit_event", args=[event_id]),
+        }
         return render(request, "contacts_app/modify_event.html", context)
 
 
@@ -102,5 +120,3 @@ def delete_event(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
     event.delete()
     return HttpResponseRedirect(reverse("contact_details", args=[event.contact.id]))
-
-
