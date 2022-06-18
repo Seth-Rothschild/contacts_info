@@ -39,4 +39,19 @@ urlpatterns = [
         views.edit_event,
         name="edit_event",
     ),
+    path(
+        "<int:contact_id>/milestone/add/",
+        views.add_milestone,
+        name="add_milestone",
+    ),
+    path(
+        "milestone/delete/<int:milestone_id>",
+        views.delete_milestone,
+        name="delete_milestone",
+    ),
+    path(
+        "milestone/edit/<int:milestone_id>",
+        views.edit_milestone,
+        name="edit_milestone",
+    ),
 ]

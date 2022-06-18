@@ -3,7 +3,7 @@ from django.http import Http404
 
 # Create your views here.
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import Contact, Event
+from .models import Contact, Event, Milestone
 from django.template import loader
 from django.urls import reverse
 
@@ -18,7 +18,8 @@ def index(request):
 def contact_details(request, contact_id):
     contact = get_object_or_404(Contact, pk=contact_id)
     events = contact.event_set.all()
-    context = {"contact": contact, "events": events}
+    milestones = contact.milestone_set.all()
+    context = {"contact": contact, "events": events, "milestones": milestones}
     return render(request, "contacts_app/contact_details.html", context)
 
 
@@ -120,3 +121,58 @@ def delete_event(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
     event.delete()
     return HttpResponseRedirect(reverse("contact_details", args=[event.contact.id]))
+
+
+def add_milestone(request, contact_id):
+    contact = get_object_or_404(Contact, pk=contact_id)
+    if request.method == "POST":
+        form = request.POST
+        if form["date"] == "":
+            date = None
+        else:
+            date = form["date"]
+        m = Milestone(
+            contact=contact,
+            date=date,
+            description=form["description"],
+            notify=False,
+        )
+        m.save()
+        return HttpResponseRedirect(reverse("contact_details", args=[contact_id]))
+    else:
+        context = {
+            "contact": contact,
+            "formtype": "Add",
+            "submit": reverse("add_milestone", args=[contact_id]),
+        }
+        return render(request, "contacts_app/modify_milestone.html", context)
+
+
+def edit_milestone(request, milestone_id):
+    milestone = get_object_or_404(Milestone, pk=milestone_id)
+    if request.method == "POST":
+        form = request.POST
+        if form["date"] == "":
+            date = None
+        else:
+            date = form["date"]
+        milestone.date = date
+        milestone.description = form["description"]
+        milestone.save()
+        return HttpResponseRedirect(
+            reverse("contact_details", args=[milestone.contact.id])
+        )
+    else:
+        context = {
+            "milestone": milestone,
+            "contact": milestone.contact,
+            "formtype": "Edit",
+            "submit": reverse("edit_milestone", args=[milestone_id]),
+        }
+        return render(request, "contacts_app/modify_milestone.html", context)
+
+
+def delete_milestone(request, milestone_id):
+    milestone = get_object_or_404(Milestone, pk=milestone_id)
+    milestone.delete()
+    return HttpResponseRedirect(reverse("contact_details", args=[milestone.contact.id]))

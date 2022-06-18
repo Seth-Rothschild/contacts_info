@@ -21,7 +21,7 @@ class Event(models.Model):
         return "{}: {} ({})".format(self.contact.name, str(self.date), self.description)
 
 
-class LifeEvent(models.Model):
+class Milestone(models.Model):
     contact = models.ForeignKey(Contact, on_delete=models.CASCADE)
     date = models.DateField()
     description = models.CharField(max_length=200)

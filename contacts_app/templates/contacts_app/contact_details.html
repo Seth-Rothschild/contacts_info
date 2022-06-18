@@ -20,6 +20,25 @@
         <button>DELETE CONTACT</button>
     </form>
 
+    {% if milestones %}
+        <br>Important Dates<br>---------<br>
+        {% for milestone in milestones %}
+            {{milestone.description}}: {{milestone.date}} <br>
+            <form action="{% url 'edit_milestone' milestone.id %}", method="get">
+                {% csrf_token %}
+                <input type="submit" value="Edit Milestone"><br>
+            </form>
+            <form action="{% url 'delete_milestone' milestone.id %}", method="post">
+                {% csrf_token %}
+                <input type="submit" value="Delete Milestone"><br><br>
+            </form>
+        {% endfor %}
+    {% endif %}
+    <form action="{% url 'add_milestone' contact.id %}", method="get">
+        <input type='submit' value='Add Milestone'>
+    </form>
+
+
     {% if events %}
         <br>Events<br>---------<br>
         {% for event in events %}
@@ -41,6 +60,9 @@
     <form action="{% url 'add_event' contact.id %}", method="get">
         <input type='submit' value='Add Event'>
     </form>
+
+
+
     <form action="{% url 'index' %}", method="get">
         <input type='submit' value='<Back'>
     </form>
