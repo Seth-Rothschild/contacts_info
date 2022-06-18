@@ -25,40 +25,32 @@ def contact_details(request, contact_id):
 def add_contact(request):
     if request.method == "POST":
         form = request.POST
-        if form["birthday"] == "":
-            birthday = None
-        else:
-            birthday = form["birthday"]
         c = Contact(
             name=form["name"],
             email=form["email"],
             address=form["address"],
-            birthday=birthday,
             notes=form["notes"],
         )
         c.save()
         return HttpResponseRedirect(reverse("index"))
     else:
-        return render(request, "contacts_app/add_contact.html", {})
+        context = {"formtype": "Add", "submit":reverse('add_contact'), "back":reverse('index')}
+        return render(request, "contacts_app/modify_contact.html", context)
 
 
 def edit_contact(request, contact_id):
     contact = get_object_or_404(Contact, pk=contact_id)
     if request.method == "POST":
         form = request.POST
-        if form["birthday"] == "":
-            birthday = None
-        else:
-            birthday = form["birthday"]
         contact.name = form["name"]
         contact.email = form["email"]
         contact.address = form["address"]
-        contact.birthday = birthday
         contact.notes = form["notes"]
         contact.save()
         return HttpResponseRedirect(reverse("contact_details", args=[contact_id]))
     else:
-        return render(request, "contacts_app/edit_contact.html", {"contact": contact})
+        context = {"contact":contact, "formtype": "Edit", "submit":reverse('edit_contact', args=[contact_id]), "back":reverse('contact_details', args=[contact_id])}
+        return render(request, "contacts_app/modify_contact.html", context)
 
 
 def delete_contact(request, contact_id):
@@ -84,7 +76,26 @@ def add_event(request, contact_id):
         e.save()
         return HttpResponseRedirect(reverse("contact_details", args=[contact_id]))
     else:
-        return render(request, "contacts_app/add_event.html", {"contact": contact})
+        context = {"contact": contact, "formtype": "Add", "submit": reverse('add_event', args=[contact_id])}
+        return render(request, "contacts_app/modify_event.html", context)
+    
+
+def edit_event(request, event_id):
+    event = get_object_or_404(Event, pk=event_id)
+    if request.method == "POST":
+        form = request.POST
+        if form["date"] == "":
+            date = None
+        else:
+            date = form["date"]
+        event.date = date
+        event.description = form["description"]
+        event.notes = form["notes"]
+        event.save()
+        return HttpResponseRedirect(reverse("contact_details", args=[event.contact.id]))
+    else:
+        context = {"event": event, "contact": event.contact, "formtype": "Edit", "submit": reverse('edit_event', args=[event_id])}
+        return render(request, "contacts_app/modify_event.html", context)
 
 
 def delete_event(request, event_id):
@@ -93,5 +104,3 @@ def delete_event(request, event_id):
     return HttpResponseRedirect(reverse("contact_details", args=[event.contact.id]))
 
 
-def edit_event(request, event_id):
-    return HttpResponse("edit event {} route".format(event_id))

@@ -10,7 +10,6 @@
     Name: {{contact.name}} <br>
     Email: {{contact.email}}<br>
     Address: {{contact.address}}<br>
-    Birthday: {{contact.birthday}}<br>
     Notes: {{contact.notes}}<br>
 
     <form action="{% url 'edit_contact' contact.id %}", method="get">
@@ -21,15 +20,19 @@
         <button>DELETE CONTACT</button>
     </form>
 
-    <br>Events<br>---------
     {% if events %}
+        <br>Events<br>---------<br>
         {% for event in events %}
+            Date: {{event.date}} <br>
+            Description: {{event.description}} <br>
+            Notes: {{event.notes}} <br>
+            <form action="{% url 'edit_event' event.id %}", method="get">
+                {% csrf_token %}
+                <input type="submit" value="Edit Event"><br>
+            </form>
             <form action="{% url 'delete_event' event.id %}", method="post">
                 {% csrf_token %}
-                Date: {{event.date}} <br>
-                Description: {{event.description}} <br>
-                Notes: {{event.notes}} <br>
-                <input type='submit' value='Delete Event'><br><br>
+                <input type="submit" value="Delete Event"><br><br>
             </form>
         {% endfor %}
     {% else %}

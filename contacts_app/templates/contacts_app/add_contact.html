@@ -7,12 +7,11 @@
   </head>
   <body>
     <h2>Add Contact</h2>
-    <form action="{% url 'add_contact' %}" method="post">
+    <form action=" method="post">
     {% csrf_token %}
         <input type="text" name="name" placeholder="name"><br>
         <input type="text" name="email" placeholder="email"><br>
         <input type="text" name="address" placeholder="address"><br>
-        <input type="date" name="birthday" placeholder="birthday"><br>
         <textarea name="notes" placeholder="notes" rows=3></textarea><br>
         <input type="submit" value="Add Contact">
     </form>

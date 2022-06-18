@@ -1,0 +1,22 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>{{formtype}} Contact Page</title>
+  </head>
+  <body>
+    <h2>{{formtype}} Contact</h2>
+    <form action="{{submit}}" method="post">
+    {% csrf_token %}
+        <input type="text" name="name" placeholder="name" value="{{ contact.name }}"><br>
+        <input type="text" name="email" placeholder="email" value="{{ contact.email }}"><br>
+        <input type="text" name="address" placeholder="address" value="{{ contact.address }}"><br>
+        <textarea name="notes" placeholder="notes" rows=3>{{ contact.notes }}</textarea><br>
+        <input type="submit" value="Save">
+    </form>
+    <form action="{{back}}" method="get">
+        <input type='submit' value='<Back'>
+    </form>
+  </body>
+</html>
