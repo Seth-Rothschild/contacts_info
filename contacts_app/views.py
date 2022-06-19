@@ -7,17 +7,47 @@ from .models import Contact, Event, Milestone
 from django.template import loader
 from django.urls import reverse
 
+import datetime
+
 
 def index(request):
+    def sort_function(c):
+        if c.most_recent_event() is None:
+            return datetime.date.min
+        else:
+            return c.most_recent_event().date
+
+    def get_recent_milestones():
+        today = datetime.date.today()
+        today_numeric = 100 * today.month + today.day
+        unsorted_milestones = Milestone.objects.order_by(
+            "date__month", "date__day"
+        ).all()
+        numerics = [x.date.month * 100 + x.date.day for x in unsorted_milestones]
+        upcoming = []
+        previous = []
+        for milestone, numerics in zip(unsorted_milestones, numerics):
+            if numerics >= today_numeric:
+                upcoming.append(milestone)
+            else:
+                previous.append(milestone)
+        return upcoming + previous
+
     contacts_list = Contact.objects.all()
-    context = {"contacts_list": contacts_list}
+    contacts_list = sorted(contacts_list, key=sort_function)
+    milestones = get_recent_milestones()
+    context = {
+        "contacts_list": contacts_list,
+        "upcoming_milestones": milestones[:5],
+        "recent_milestones": milestones[-3:-1],
+    }
     return render(request, "contacts_app/index.html", context)
 
 
 def contact_details(request, contact_id):
     contact = get_object_or_404(Contact, pk=contact_id)
-    events = contact.event_set.order_by('-date').all()
-    milestones = contact.milestone_set.order_by('-date').all()
+    events = contact.event_set.order_by("-date").all()
+    milestones = contact.milestone_set.order_by("-date").all()
     context = {"contact": contact, "events": events, "milestones": milestones}
     return render(request, "contacts_app/contact_details.html", context)
 

@@ -10,6 +10,9 @@ class Contact(models.Model):
     def __str__(self):
         return self.name
 
+    def most_recent_event(self):
+        return self.event_set.order_by("-date").first()
+
 
 class Event(models.Model):
     contact = models.ForeignKey(Contact, on_delete=models.CASCADE)

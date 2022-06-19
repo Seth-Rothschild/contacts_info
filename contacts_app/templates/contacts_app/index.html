@@ -5,6 +5,7 @@
             text-align: left;
             width: 300px;
             margin: 2px;
+            padding: 5px;
         }
         button.add {
             margin: 2px;
@@ -21,10 +22,17 @@
     <p>
         <h3>Upcoming Important Dates</h3>
         <ul>
-          <li> Test item </li>
-          <li> Test item 2 </li>
-          <li> Test item 3 </li>
-          <li> Test item 4 </li>
+            {% for upcoming in upcoming_milestones %}
+                <li>{{upcoming.description}} {{upcoming.date}}</li>
+            {% endfor %}
+        </ul>
+    </p>
+    <p>
+        <h3>Recent Important Dates</h3>
+        <ul>
+            {% for recent in recent_milestones %}
+                <li>{{recent.description}} {{recent.date}}</li>
+            {% endfor %}
         </ul>
     </p>
 
@@ -35,7 +43,7 @@
         <form action="{% url 'contact_details' contact.id %}" method="get">
             <button class='contact'>
                 <b>{{contact.name}}</b> <br>
-                Contact ID: {{contact.id}}
+                Most Recent Event: {{contact.most_recent_event.date}}
             </button>
         </form>
         {% endfor %}
