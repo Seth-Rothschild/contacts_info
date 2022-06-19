@@ -7,15 +7,15 @@
   </head>
   <body>
     <h2>{{formtype}} Event with {{contact.name}}</h2>
+    <form action="{% url 'contact_details' contact.id %}", method="get">
+        <input type='submit' value='<Back'>
+    </form>
     <form action="{{submit}}" method="post">
     {% csrf_token %}
         <input type="text" name="description" placeholder="description" value="{{event.description}}"><br>
         <input type="date" name="date" value={{event.date|date:"Y-m-d"}}><br>
         <textarea name="notes" placeholder="notes" rows=3>{{event.notes}}</textarea><br>
         <input type="submit" value="Save">
-    </form>
-    <form action="{% url 'contact_details' contact.id %}", method="get">
-        <input type='submit' value='<Back'>
     </form>
   </body>
 </html>

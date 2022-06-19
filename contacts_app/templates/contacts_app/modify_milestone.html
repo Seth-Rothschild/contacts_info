@@ -7,14 +7,14 @@
   </head>
   <body>
     <h2>{{formtype}} Important Date for {{contact.name}}</h2>
-    <form action="{{submit}}" method="post">
-    {% csrf_token %}
-        <input type="text" name="description" placeholder="description" value="{{event.description}}"><br>
-        <input type="date" name="date" value={{event.date|date:"Y-m-d"}}><br>
-        <input type="submit" value="Save">
-    </form>
     <form action="{% url 'contact_details' contact.id %}", method="get">
         <input type='submit' value='<Back'>
+    </form>
+    <form action="{{submit}}" method="post">
+    {% csrf_token %}
+        <input type="text" name="description" placeholder="description" value="{{milestone.description}}"><br>
+        <input type="date" name="date" value={{milestone.date|date:"Y-m-d"}}><br>
+        <input type="submit" value="Save">
     </form>
   </body>
 </html>

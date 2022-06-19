@@ -7,6 +7,9 @@
   </head>
   <body>
     <h2>{{formtype}} Contact</h2>
+    <form action="{{back}}" method="get">
+        <button> Back </button>
+    </form>
     <form action="{{submit}}" method="post">
     {% csrf_token %}
         <input type="text" name="name" placeholder="name" value="{{ contact.name }}"><br>
@@ -15,8 +18,12 @@
         <textarea name="notes" placeholder="notes" rows=3>{{ contact.notes }}</textarea><br>
         <input type="submit" value="Save">
     </form>
-    <form action="{{back}}" method="get">
-        <input type='submit' value='<Back'>
-    </form>
+
+    {% if formtype == "Edit" %}
+        <form action="{% url 'delete_contact' contact.id %}", method="post">
+            {% csrf_token %}
+            <button>DELETE CONTACT</button>
+        </form>
+    {% endif %}
   </body>
 </html>

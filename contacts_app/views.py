@@ -11,14 +11,13 @@ from django.urls import reverse
 def index(request):
     contacts_list = Contact.objects.all()
     context = {"contacts_list": contacts_list}
-    template = loader.get_template("contacts_app/index.html")
     return render(request, "contacts_app/index.html", context)
 
 
 def contact_details(request, contact_id):
     contact = get_object_or_404(Contact, pk=contact_id)
-    events = contact.event_set.all()
-    milestones = contact.milestone_set.all()
+    events = contact.event_set.order_by('-date').all()
+    milestones = contact.milestone_set.order_by('-date').all()
     context = {"contact": contact, "events": events, "milestones": milestones}
     return render(request, "contacts_app/contact_details.html", context)
 

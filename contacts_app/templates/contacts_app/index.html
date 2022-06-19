@@ -1,22 +1,51 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Contacts Tracker</title>
-  </head>
-  <body>
+    <style>
+        button.contact {
+            text-align: left;
+            width: 300px;
+            margin: 2px;
+        }
+        button.add {
+            margin: 2px;
+            margin-top: 40px;
+            padding: 10px;
+        }
+    </style>
+    <head>
+        <meta charset="utf-8">
+        <title>Contacts Tracker</title>
+    </head>
+    <body>
     <h2> Welcome! </h2>
+    <p>
+        <h3>Upcoming Important Dates</h3>
+        <ul>
+          <li> Test item </li>
+          <li> Test item 2 </li>
+          <li> Test item 3 </li>
+          <li> Test item 4 </li>
+        </ul>
+    </p>
 
-    <p>This is a self-hostable app to keep track of interpersonal connections.</p>
-    <form action="{% url 'add_contact' %}", method="get">
-        <button>Add Contact</button>
-    </form>
+
     {% if contacts_list %}
+        <h3> Contacts List </h3>
         {% for contact in contacts_list %}
-            <br><a href="{{ contact.id }}/contact_details">{{ contact.name }}</a>
+        <form action="{% url 'contact_details' contact.id %}" method="get">
+            <button class='contact'>
+                <b>{{contact.name}}</b> <br>
+                Contact ID: {{contact.id}}
+            </button>
+        </form>
         {% endfor %}
+
     {% else %}
         <p>No contacts exist.</p>
     {% endif %}
+
+    <form action="{% url 'add_contact' %}", method="get">
+        <button class='add'>Add Contact</button>
+    </form>
   </body>
 </html>
