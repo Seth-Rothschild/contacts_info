@@ -39,7 +39,7 @@ def index(request):
     context = {
         "contacts_list": contacts_list,
         "upcoming_milestones": milestones[:5],
-        "recent_milestones": milestones[-3:-1],
+        "recent_milestones": milestones[-2:],
     }
     return render(request, "contacts_app/index.html", context)
 
