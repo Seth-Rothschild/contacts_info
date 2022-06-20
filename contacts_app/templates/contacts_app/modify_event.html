@@ -17,5 +17,12 @@
         <textarea name="notes" placeholder="notes" rows=3>{{event.notes}}</textarea><br>
         <input type="submit" value="Save">
     </form>
+
+    {% if formtype == "Edit" %}
+        <form action="{% url 'delete_event' event.id %}", method="post">
+            {% csrf_token %}
+            <button>DELETE EVENT</button>
+        </form>
+    {% endif %}
   </body>
 </html>

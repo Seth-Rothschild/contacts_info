@@ -16,5 +16,12 @@
         <input type="date" name="date" value={{milestone.date|date:"Y-m-d"}}><br>
         <input type="submit" value="Save">
     </form>
+
+    {% if formtype == "Edit" %}
+        <form action="{% url 'delete_milestone' milestone.id %}", method="post">
+            {% csrf_token %}
+            <button>DELETE</button>
+        </form>
+    {% endif %}
   </body>
 </html>

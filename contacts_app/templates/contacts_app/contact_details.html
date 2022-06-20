@@ -2,69 +2,76 @@
 <!DOCTYPE html>
 <html>
   <style>
-      form {float: left;}
+        form.actions {float: left;}
+
+        button.event {
+            text-align: left;
+            width: 98%;
+            margin: 2px;
+            padding: 5px;
+        }
+
+        div.contactinfo {
+            width: 95%;
+            margin: 2px;
+            padding: 5px;
+            border: 1px grey solid;
+            border-radius: 8px;
+            color: #222222;
+
+        }
   </style>
   <head>
     <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <title>Contacts Details: {{contact.name}}</title>
+    <title>{{contact.name}}</title>
   </head>
   <body>
-    <h2>Contact Details: {{contact.name}} </h2>
+    <h2>{{contact.name}} </h2>
 
     <form action="{% url 'index' %}", method="get">
         <input type='submit' value='<Back'>
     </form>
     <br />
-    <p>
-
-    Name: {{contact.name}} <br>
-    Email: {{contact.email}}<br>
-    Address: {{contact.address}}<br>
-    Notes: {{contact.notes}}<br>
-
-
-    <form action="{% url 'edit_contact' contact.id %}", method="get">
+    <div class="contactinfo">
+        <b>{{contact.name}}</b> <br />
+        <i>{{contact.email}}</i> <br />
+        <p>{{contact.address}}</p>
+        <p>{{contact.notes}}</p>
+    </div>
+    <form class="actions" action="{% url 'edit_contact' contact.id %}", method="get">
         <input type='submit' value='Edit Contact'>
     </form>
-    <form action="{% url 'add_milestone' contact.id %}", method="get">
+    <form class="actions" action="{% url 'add_milestone' contact.id %}", method="get">
         <input type='submit' value='Add Milestone'>
     </form>
-    <form action="{% url 'add_event' contact.id %}", method="get">
+    <form class="actions" action="{% url 'add_event' contact.id %}", method="get">
         <input type='submit' value='Add Event'>
     </form>
-    </p><br /><br />
+
+    <br /><br />
 
     {% if milestones %}
-        <br>Important Dates<br>----------------------<br>
+        <h3>Important Dates</h3>
         {% for milestone in milestones %}
-            {{milestone.description}}: 
-            ({{milestone.date}})<br />
             <form action="{% url 'edit_milestone' milestone.id %}", method="get">
-                {% csrf_token %}
-                <input type="submit" value="Edit">
+                <button class='event'>
+                    <b>{{milestone.description}}</b> <br>
+                    {{milestone.date}}
+                </button>
             </form>
-            <form action="{% url 'delete_milestone' milestone.id %}", method="post">
-                {% csrf_token %}
-                <input type="submit" value="Delete">
-            </form><br /><br />
         {% endfor %}
     {% endif %}
 
 
     {% if events %}
-        <br>Events<br>---------<br>
+        <h3>Events</h3>
         {% for event in events %}
-            Date: {{event.date}} <br>
-            Description: {{event.description}} <br>
-            Notes: {{event.notes}} <br />
             <form action="{% url 'edit_event' event.id %}", method="get">
-                {% csrf_token %}
-                <input type="submit" value="Edit Event"><br>
+                <button class='event'>
+                    <b>{{event.date}}:</b> <i>{{event.description}}</i>
+                    <p>{{event.notes}}</p>
+                </button>
             </form>
-            <form action="{% url 'delete_event' event.id %}", method="post">
-                {% csrf_token %}
-                <input type="submit" value="Delete Event"><br><br>
-            </form><br /><br /><br />
         {% endfor %}
     {% endif %}
 
