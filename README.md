@@ -2,8 +2,14 @@
 
 This app theoretically stores information about birthdays, addresses, and events for people in my life. It's inspired by [Monica](https://github.com/monicahq/monica) but even when done will have **substantially fewer** features.
 
-![](contact_example.png)
+![](index_view.png)
 
+## Functionality
+The app is essentially a list of **Contact** objects where each contact has **Events** and **Milestones**. The intended use is that as you interact with contacts, you add events recording those interactions. You can use milestones to record important dates like birthdays.
+
+The `index` page shows upcoming milestones from today, as well as a couple recent past milestones. It also shows the contacts, sorted so that those with recorded recent events are furthest to the bottom. On the `contact_details` page you can see all the recorded information about a given contact.
+
+![](contact_view.png)
 
 ## Install
 The only dependency is `django`, so you can install that with
