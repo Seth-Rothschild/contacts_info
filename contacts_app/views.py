@@ -8,6 +8,7 @@ from django.template import loader
 from django.urls import reverse
 
 import datetime
+from django import forms
 
 
 def index(request):
@@ -52,44 +53,42 @@ def contact_details(request, contact_id):
     return render(request, "contacts_app/contact_details.html", context)
 
 
+class ContactForm(forms.ModelForm):
+    class Meta:
+        model = Contact
+        fields = ["name", "email", "address", "notes"]
+
+
 def add_contact(request):
     if request.method == "POST":
-        form = request.POST
-        c = Contact(
-            name=form["name"],
-            email=form["email"],
-            address=form["address"],
-            notes=form["notes"],
-        )
-        c.save()
+        form = ContactForm(request.POST)
+        form.save()
         return HttpResponseRedirect(reverse("index"))
     else:
         context = {
-            "formtype": "Add",
+            "formtype": "Add Contact",
             "submit": reverse("add_contact"),
             "back": reverse("index"),
+            "form": ContactForm(),
         }
-        return render(request, "contacts_app/modify_contact.html", context)
+        return render(request, "contacts_app/modify.html", context)
 
 
 def edit_contact(request, contact_id):
     contact = get_object_or_404(Contact, pk=contact_id)
     if request.method == "POST":
-        form = request.POST
-        contact.name = form["name"]
-        contact.email = form["email"]
-        contact.address = form["address"]
-        contact.notes = form["notes"]
-        contact.save()
+        form = ContactForm(request.POST, instance=contact)
+        form.save()
         return HttpResponseRedirect(reverse("contact_details", args=[contact_id]))
     else:
         context = {
-            "contact": contact,
-            "formtype": "Edit",
+            "formtype": "Edit Contact: {}".format(contact.name),
             "submit": reverse("edit_contact", args=[contact_id]),
             "back": reverse("contact_details", args=[contact_id]),
+            "delete": reverse("delete_contact", args=[contact_id]),
+            "form": ContactForm(instance=contact),
         }
-        return render(request, "contacts_app/modify_contact.html", context)
+        return render(request, "contacts_app/modify.html", context)
 
 
 def delete_contact(request, contact_id):
@@ -98,52 +97,45 @@ def delete_contact(request, contact_id):
     return HttpResponseRedirect(reverse("index"))
 
 
+class EventForm(forms.ModelForm):
+    class Meta:
+        model = Event
+        fields = ["date", "description", "notes"]
+        widgets = {"date": forms.DateInput(attrs={"type": "date"})}
+
+
 def add_event(request, contact_id):
     contact = get_object_or_404(Contact, pk=contact_id)
     if request.method == "POST":
-        form = request.POST
-        if form["date"] == "":
-            date = None
-        else:
-            date = form["date"]
-        e = Event(
-            contact=contact,
-            date=date,
-            description=form["description"],
-            notes=form["notes"],
-        )
-        e.save()
+        form = EventForm(request.POST).save(commit=False)
+        form.contact = contact
+        form.save()
         return HttpResponseRedirect(reverse("contact_details", args=[contact_id]))
     else:
         context = {
-            "contact": contact,
-            "formtype": "Add",
+            "formtype": "Add Event for {}".format(contact.name),
             "submit": reverse("add_event", args=[contact_id]),
+            "back": reverse("contact_details", args=[contact_id]),
+            "form": EventForm(),
         }
-        return render(request, "contacts_app/modify_event.html", context)
+        return render(request, "contacts_app/modify.html", context)
 
 
 def edit_event(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
     if request.method == "POST":
-        form = request.POST
-        if form["date"] == "":
-            date = None
-        else:
-            date = form["date"]
-        event.date = date
-        event.description = form["description"]
-        event.notes = form["notes"]
-        event.save()
+        form = EventForm(request.POST, instance=event)
+        form.save()
         return HttpResponseRedirect(reverse("contact_details", args=[event.contact.id]))
     else:
         context = {
-            "event": event,
-            "contact": event.contact,
-            "formtype": "Edit",
+            "formtype": "Edit Event for {}".format(event.contact.name),
             "submit": reverse("edit_event", args=[event_id]),
+            "back": reverse("contact_details", args=[event.contact.id]),
+            "delete": reverse("delete_event", args=[event_id]),
+            "form": EventForm(instance=event),
         }
-        return render(request, "contacts_app/modify_event.html", context)
+        return render(request, "contacts_app/modify.html", context)
 
 
 def delete_event(request, event_id):
@@ -152,53 +144,47 @@ def delete_event(request, event_id):
     return HttpResponseRedirect(reverse("contact_details", args=[event.contact.id]))
 
 
+class MilestoneForm(forms.ModelForm):
+    class Meta:
+        model = Milestone
+        fields = ["date", "description"]
+        widgets = {"date": forms.DateInput(attrs={"type": "date"})}
+
+
 def add_milestone(request, contact_id):
     contact = get_object_or_404(Contact, pk=contact_id)
     if request.method == "POST":
-        form = request.POST
-        if form["date"] == "":
-            date = None
-        else:
-            date = form["date"]
-        m = Milestone(
-            contact=contact,
-            date=date,
-            description=form["description"],
-            notify=False,
-        )
-        m.save()
+        form = MilestoneForm(request.POST).save(commit=False)
+        form.contact = contact
+        form.save()
         return HttpResponseRedirect(reverse("contact_details", args=[contact_id]))
     else:
         context = {
-            "contact": contact,
-            "formtype": "Add",
+            "formtype": "Add Important Date for {}".format(contact.name),
             "submit": reverse("add_milestone", args=[contact_id]),
+            "back": reverse("contact_details", args=[contact_id]),
+            "form": MilestoneForm(),
         }
-        return render(request, "contacts_app/modify_milestone.html", context)
+        return render(request, "contacts_app/modify.html", context)
 
 
 def edit_milestone(request, milestone_id):
     milestone = get_object_or_404(Milestone, pk=milestone_id)
     if request.method == "POST":
-        form = request.POST
-        if form["date"] == "":
-            date = None
-        else:
-            date = form["date"]
-        milestone.date = date
-        milestone.description = form["description"]
-        milestone.save()
+        form = MilestoneForm(request.POST, instance=milestone)
+        form.save()
         return HttpResponseRedirect(
             reverse("contact_details", args=[milestone.contact.id])
         )
     else:
         context = {
-            "milestone": milestone,
-            "contact": milestone.contact,
-            "formtype": "Edit",
+            "formtype": "Edit Important Date for {}".format(milestone.contact.name),
             "submit": reverse("edit_milestone", args=[milestone_id]),
+            "back": reverse("contact_details", args=[milestone.contact.id]),
+            "delete": reverse("delete_milestone", args=[milestone_id]),
+            "form": MilestoneForm(instance=milestone),
         }
-        return render(request, "contacts_app/modify_milestone.html", context)
+        return render(request, "contacts_app/modify.html", context)
 
 
 def delete_milestone(request, milestone_id):
