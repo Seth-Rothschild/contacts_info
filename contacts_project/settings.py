@@ -11,6 +11,15 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+try:
+    from contacts_app.config import CONFIG
+except ImportError:
+    print("\nERROR GETTING STARTED")
+    print("To start running this app, create a new file `config.py` inside")
+    print("of contacts_app with a dictionary CONFIG. The dictionary:")
+    print("  1. must have a key secret_key whose value is a random string")
+    print("  2. can have a gotify_url whose value is a gotify url with token\n\n")
+    exit()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "samplesecretforinitialcommit"
+SECRET_KEY = CONFIG['secret_key']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
