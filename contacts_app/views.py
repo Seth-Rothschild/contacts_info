@@ -93,8 +93,16 @@ def edit_contact(request, contact_id):
 
 def delete_contact(request, contact_id):
     contact = get_object_or_404(Contact, pk=contact_id)
-    contact.delete()
-    return HttpResponseRedirect(reverse("index"))
+    if request.method == "POST":
+        contact.delete()
+        return HttpResponseRedirect(reverse("index"))
+    else:
+        context = {
+            "back": reverse("contact_details", args=[contact_id]),
+            "delete": reverse("delete_contact", args=[contact_id]),
+            "object": contact,
+        }
+        return render(request, "contacts_app/confirm_delete.html", context)
 
 
 class EventForm(forms.ModelForm):
@@ -140,8 +148,16 @@ def edit_event(request, event_id):
 
 def delete_event(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
-    event.delete()
-    return HttpResponseRedirect(reverse("contact_details", args=[event.contact.id]))
+    if request.method == "POST":
+        event.delete()
+        return HttpResponseRedirect(reverse("contact_details", args=[event.contact.id]))
+    else:
+        context = {
+            "back": reverse("edit_event", args=[event_id]),
+            "delete": reverse("delete_event", args=[event_id]),
+            "object": event,
+        }
+        return render(request, "contacts_app/confirm_delete.html", context)
 
 
 class MilestoneForm(forms.ModelForm):
@@ -189,5 +205,15 @@ def edit_milestone(request, milestone_id):
 
 def delete_milestone(request, milestone_id):
     milestone = get_object_or_404(Milestone, pk=milestone_id)
-    milestone.delete()
-    return HttpResponseRedirect(reverse("contact_details", args=[milestone.contact.id]))
+    if request.method == "POST":
+        milestone.delete()
+        return HttpResponseRedirect(
+            reverse("contact_details", args=[milestone.contact.id])
+        )
+    else:
+        context = {
+            "back": reverse("edit_milestone", args=[milestone_id]),
+            "delete": reverse("delete_milestone", args=[milestone_id]),
+            "object": milestone,
+        }
+        return render(request, "contacts_app/confirm_delete.html", context)

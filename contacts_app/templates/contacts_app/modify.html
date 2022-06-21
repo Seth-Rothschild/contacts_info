@@ -19,8 +19,7 @@
     </form>
 
     {% if delete %}
-        <form action="{{ delete }}", method="post">
-            {% csrf_token %}
+        <form action="{{ delete }}", method="get">
             <button>DELETE</button>
         </form>
     {% endif %}
