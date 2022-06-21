@@ -1,20 +1,33 @@
 
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <title>Confirm Delete</title>
-  </head>
-  <body>
-    <h2>Confirm Deletion</h2>
-    <p> Are you sure you want to delete {{object}}?</p>
-    <form action="{{back}}" method="get">
-        <button> Back </button>
-    </form>
+    <style>
+        button {
+            padding: 5px;
+            margin: 2px;
+        }
+        button.delete:hover {
+            background-color: #CC0000;
+            color: white;
+            border: 1px solid #CC0000;
+            border-radius: 4px
+        }
+        form {float: left}
+    </style>
+    <head>
+        <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0"> 
+        <title>Confirm Delete</title>
+    </head>
+    <body>
+        <h2>Confirm Deletion</h2>
+        <p> Are you sure you want to delete {{object}}?</p>
+        <form action="{{back}}" method="get">
+            <button> &ltBack </button>
+        </form>
 
-    <form action="{{ delete }}", method="post">
-        {% csrf_token %}
-        <button>DELETE</button>
-    </form>
-  </body>
-</html>
+        <form action="{{ delete }}", method="post">
+            {% csrf_token %}
+            <button class="delete">DELETE</button>
+        </form>
+    </body>
+    </html>

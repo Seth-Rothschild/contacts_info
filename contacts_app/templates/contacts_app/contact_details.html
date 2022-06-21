@@ -4,6 +4,10 @@
   <style>
         form.actions {float: left;}
 
+        button {
+            margin: 2px;
+            padding: 5px;
+        }
         button.event {
             text-align: left;
             width: 98%;
@@ -28,24 +32,23 @@
   <body>
     <h2>{{contact.name}} </h2>
 
-    <form action="{% url 'index' %}", method="get">
-        <input type='submit' value='<Back'>
-    </form>
-    <br />
     <div class="contactinfo">
         <b>{{contact.name}}</b> <br />
         <i>{{contact.email}}</i> <br />
         <p>{{contact.address}}</p>
         <p>{{contact.notes}}</p>
     </div>
+    <form class="actions" action="{% url 'index' %}", method="get">
+        <button> &ltBack </button>
+    </form>
     <form class="actions" action="{% url 'add_event' contact.id %}", method="get">
-        <input type='submit' value='Add Event'>
+        <button>Add Event</button>
     </form>
     <form class="actions" action="{% url 'add_milestone' contact.id %}", method="get">
-        <input type='submit' value='Add Milestone'>
+        <button> Add Milestone </button>
     </form>
     <form class="actions" action="{% url 'edit_contact' contact.id %}", method="get">
-        <input type='submit' value='Edit Contact'>
+        <button> Edit Contact </button>
     </form>
 
     <br /><br />
@@ -74,8 +77,5 @@
             </form>
         {% endfor %}
     {% endif %}
-
-
-
   </body>
 </html>
