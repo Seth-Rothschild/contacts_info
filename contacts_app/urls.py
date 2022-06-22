@@ -4,6 +4,7 @@ from . import views
 
 urlpatterns = [
     path("", views.index, name="index"),
+    path("bulk_add_event", views.bulk_add_event, name="bulk_add_event"),
     path(
         "<int:contact_id>/contact_details/",
         views.contact_details,

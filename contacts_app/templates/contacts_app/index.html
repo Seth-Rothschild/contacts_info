@@ -1,6 +1,23 @@
 <!DOCTYPE html>
 <html>
     <style>
+        button.bulk_add_event {
+            text-align: center;
+            width: 98%;
+            margin: 2px;
+            padding: 10px;
+            color: white;
+            background-color: #008080;
+            border: 1px solid #008080;
+            border-radius: 4px;
+            font-size: 14px;
+
+        }
+        button.bulk_add_event:hover {
+            background-color: #00A0A0;
+            border: 1px solid #00A0A0;
+            border-radius: 4px;
+        }
         button.contact {
             text-align: left;
             width: 98%;
@@ -19,6 +36,12 @@
     </head>
     <body>
     <h2> Welcome! </h2>
+
+    <form action="{% url 'bulk_add_event' %}" method="get">
+        <button class='bulk_add_event'>
+            Add Event
+        </button>
+    </form>
     <p>
         <h3>Upcoming Important Dates</h3>
         <ul>
