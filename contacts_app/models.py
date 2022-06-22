@@ -1,3 +1,5 @@
+import math
+import datetime
 from django.db import models
 
 
@@ -31,3 +33,12 @@ class Milestone(models.Model):
 
     def __str__(self):
         return "{}: {} ({})".format(self.contact.name, str(self.date), self.description)
+    
+    def years_since(self):
+        today = datetime.date.today()
+        if self.date.month >= today.month:
+            return today.year-self.date.year
+        else:
+            return today.year-self.date.year + 1
+
+

@@ -29,6 +29,12 @@
             margin-top: 40px;
             padding: 10px;
         }
+        table {
+            padding-left: 20px
+        }
+        td {
+            padding: 3px
+        }
     </style>
     <head>
         <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0"> 
@@ -44,19 +50,24 @@
     </form>
     <p>
         <h3>Upcoming Important Dates</h3>
-        <ul>
+        <table>
             {% for upcoming in upcoming_milestones %}
-                <li>{{upcoming.description}} {{upcoming.date}}</li>
+                <tr>
+                    <td>&#8226 <i>{{upcoming.description}}:</i> {{upcoming.date}}</td>
+                    <td>({{upcoming.years_since}} years)</td>
+                </tr>
             {% endfor %}
-        </ul>
+        </table>
     </p>
     <p>
         <h3>Recent Important Dates</h3>
-        <ul>
+        <table>
             {% for recent in recent_milestones %}
-                <li>{{recent.description}} {{recent.date}}</li>
+                <tr>
+                    <td>&#8226 <i>{{recent.description}}:</i> {{recent.date}}</td>
+                </tr>
             {% endfor %}
-        </ul>
+        </table>
     </p>
 
 
