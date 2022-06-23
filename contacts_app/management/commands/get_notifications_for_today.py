@@ -6,6 +6,8 @@ import requests
 
 
 def should_notify(today, contact):
+    if contact.most_recent_event() is None:
+        return False
     days_since_event = (today - contact.most_recent_event().date).days
     notify_after = contact.notify_after
     if (
