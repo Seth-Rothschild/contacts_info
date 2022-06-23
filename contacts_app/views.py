@@ -56,7 +56,7 @@ def contact_details(request, contact_id):
 class ContactForm(forms.ModelForm):
     class Meta:
         model = Contact
-        fields = ["name", "email", "address", "notes"]
+        fields = ["name", "email", "address", "notes", "notify_after"]
 
 
 def add_contact(request):
@@ -159,22 +159,26 @@ def delete_event(request, event_id):
         }
         return render(request, "contacts_app/confirm_delete.html", context)
 
+
 def bulk_add_event(request):
-    contacts = Contact.objects.order_by('name').all()
+    contacts = Contact.objects.order_by("name").all()
     if request.method == "POST":
         selected_contact_ids = [int(x) for x in request.POST.getlist("contacts")]
-        selected_contacts = [contact for contact in contacts if contact.id in selected_contact_ids]
+        selected_contacts = [
+            contact for contact in contacts if contact.id in selected_contact_ids
+        ]
         for contact in selected_contacts:
             form = EventForm(request.POST).save(commit=False)
             form.contact = contact
             form.save()
-        return HttpResponseRedirect(reverse('index'))
+        return HttpResponseRedirect(reverse("index"))
     else:
         context = {
             "contacts": contacts,
             "form": EventForm(),
         }
         return render(request, "contacts_app/bulk_add_event.html", context)
+
 
 class MilestoneForm(forms.ModelForm):
     class Meta:

@@ -8,6 +8,7 @@ class Contact(models.Model):
     email = models.CharField(max_length=200, blank=True)
     address = models.CharField(max_length=200, blank=True)
     notes = models.TextField(blank=True)
+    notify_after = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
@@ -33,12 +34,10 @@ class Milestone(models.Model):
 
     def __str__(self):
         return "{}: {} ({})".format(self.contact.name, str(self.date), self.description)
-    
+
     def years_since(self):
         today = datetime.date.today()
         if self.date.month >= today.month:
-            return today.year-self.date.year
+            return today.year - self.date.year
         else:
-            return today.year-self.date.year + 1
-
-
+            return today.year - self.date.year + 1
