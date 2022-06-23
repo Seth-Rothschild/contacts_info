@@ -11,6 +11,13 @@ The `index` page shows upcoming milestones from today, as well as a couple recen
 
 ![](contact_view.png)
 
+### Notifications
+There's a provided script to grab notifications which you can run with `python manage.py get_notifications_for_today`. This will collect important dates and contacts where `notify_after` is set. Note that this script will not run automatically unless you configure it to do so. This involves: 
+
+  1. If you have [gotify](https://gotify.net/) running, you need to provide a `gotify_url` in the `config.py`.
+  
+  2. You need to set `python manage.py get_notifications_for_today` to run periodically (e.g. once a day with cron). If you're using a virtual environment, use the path to the Python in that environment rather than `python`.
+
 ## Install
 The only dependency is `django`, so you can install that with
 
