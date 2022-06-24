@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <style>
+        button.pagewidth {
+            text-align: left;
+            width: 98%;
+            margin: 2px;
+            padding: 5px;
+        }
+        button.nav {
+            margin: 2px;
+            padding: 5px;
+            float: left;
+        }
+        
+
+        button.delete:hover {
+            background-color: #CC0000;
+            color: white;
+            border: 1px solid #CC0000;
+            border-radius: 4px
+        }
+        button.add {
+            margin: 2px;
+            margin-top: 40px;
+            padding: 10px;
+        }
+        button.bulk_add_event {
+            text-align: center;
+            width: 98%;
+            margin: 2px;
+            padding: 10px;
+            color: white;
+            background-color: #008080;
+            border: 1px solid #008080;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        button.bulk_add_event:hover {
+            background-color: #00A0A0;
+            border: 1px solid #00A0A0;
+            border-radius: 4px;
+        }
+        table {
+            padding-left: 20px
+        }
+        td {
+            padding: 3px
+        }
+
+        th {
+            text-align: right;
+            vertical-align: top;
+        }
+
+        form.actions {float: left;}
+
+        div.contactinfo {
+            width: 95%;
+            margin: 2px;
+            padding: 5px;
+            border: 1px grey solid;
+            border-radius: 8px;
+            color: #222222;
+        }
+    </style>
+    <head>
+        <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0"> 
+        <title>{% block title %}{% endblock %}</title>
+    </head>
+    <body>
+        {% block content %}{% endblock content %}
+    </body>
+</html>

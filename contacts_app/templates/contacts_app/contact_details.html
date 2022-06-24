@@ -1,35 +1,8 @@
 
-<!DOCTYPE html>
-<html>
-  <style>
-        form.actions {float: left;}
+{% extends "contacts_app/base.html" %}
+{% block title %}{{contact.name}}{% endblock title %}
 
-        button {
-            margin: 2px;
-            padding: 5px;
-        }
-        button.event {
-            text-align: left;
-            width: 98%;
-            margin: 2px;
-            padding: 5px;
-        }
-
-        div.contactinfo {
-            width: 95%;
-            margin: 2px;
-            padding: 5px;
-            border: 1px grey solid;
-            border-radius: 8px;
-            color: #222222;
-
-        }
-  </style>
-  <head>
-    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <title>{{contact.name}}</title>
-  </head>
-  <body>
+{% block content %}
     <h2>{{contact.name}} </h2>
 
     <div class="contactinfo">
@@ -39,16 +12,16 @@
         <p>{{contact.notes}}</p>
     </div>
     <form class="actions" action="{% url 'index' %}", method="get">
-        <button> &ltBack </button>
+        <button class="nav"> &ltBack </button>
     </form>
     <form class="actions" action="{% url 'add_event' contact.id %}", method="get">
-        <button>Add Event</button>
+        <button class="nav">Add Event</button>
     </form>
     <form class="actions" action="{% url 'add_milestone' contact.id %}", method="get">
-        <button> Add Milestone </button>
+        <button class="nav"> Add Milestone </button>
     </form>
     <form class="actions" action="{% url 'edit_contact' contact.id %}", method="get">
-        <button> Edit Contact </button>
+        <button class="nav"> Edit Contact </button>
     </form>
 
     <br /><br />
@@ -57,7 +30,7 @@
         <h3>Important Dates</h3>
         {% for milestone in milestones %}
             <form action="{% url 'edit_milestone' milestone.id %}", method="get">
-                <button class='event'>
+                <button class='pagewidth'>
                     <b>{{milestone.description}}</b> <br>
                     {{milestone.date}}
                 </button>
@@ -70,12 +43,11 @@
         <h3>Events</h3>
         {% for event in events %}
             <form action="{% url 'edit_event' event.id %}", method="get">
-                <button class='event'>
+                <button class="pagewidth">
                     <b>{{event.date}}:</b> <i>{{event.description}}</i>
                     <p>{{event.notes}}</p>
                 </button>
             </form>
         {% endfor %}
     {% endif %}
-  </body>
-</html>
+{% endblock content %}

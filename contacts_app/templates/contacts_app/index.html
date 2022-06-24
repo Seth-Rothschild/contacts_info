@@ -1,46 +1,7 @@
-<!DOCTYPE html>
-<html>
-    <style>
-        button.bulk_add_event {
-            text-align: center;
-            width: 98%;
-            margin: 2px;
-            padding: 10px;
-            color: white;
-            background-color: #008080;
-            border: 1px solid #008080;
-            border-radius: 4px;
-            font-size: 14px;
+{% extends "contacts_app/base.html" %}
+{% block title %}Contacts Tracker{% endblock title %}
 
-        }
-        button.bulk_add_event:hover {
-            background-color: #00A0A0;
-            border: 1px solid #00A0A0;
-            border-radius: 4px;
-        }
-        button.contact {
-            text-align: left;
-            width: 98%;
-            margin: 2px;
-            padding: 5px;
-        }
-        button.add {
-            margin: 2px;
-            margin-top: 40px;
-            padding: 10px;
-        }
-        table {
-            padding-left: 20px
-        }
-        td {
-            padding: 3px
-        }
-    </style>
-    <head>
-        <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0"> 
-        <title>Contacts Tracker</title>
-    </head>
-    <body>
+{% block content %}
     <h2> Welcome! </h2>
 
     <form action="{% url 'bulk_add_event' %}" method="get">
@@ -74,7 +35,7 @@
         <h3> Contacts List </h3>
         {% for contact in contacts_list %}
         <form action="{% url 'contact_details' contact.id %}" method="get">
-            <button class='contact'>
+            <button class='pagewidth'>
                 <b>{{contact.name}}</b> <br>
                 Most Recent Event: {{contact.most_recent_event.date}}
             </button>
@@ -88,5 +49,4 @@
     <form action="{% url 'add_contact' %}", method="get">
         <button class='add'>Add Contact</button>
     </form>
-  </body>
-</html>
+{% endblock content %}
